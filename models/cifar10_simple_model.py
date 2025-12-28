@@ -43,5 +43,4 @@ class simple_model(nn.Module):
         x = self.conv8(self.conv7(x))
         x = self.conv9(self.gap(x))
         x = x.view((x.size(0),-1))
-        output = F.log_softmax(x, 1)
-        return output
+        return x
