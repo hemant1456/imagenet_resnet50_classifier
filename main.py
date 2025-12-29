@@ -16,12 +16,13 @@ def main():
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
+        print("using GPU")
     elif torch.mps.is_available():
         device = torch.device("mps")
+        print("using Mac mps")
     else:
         device = torch.device("cpu")
-
-    print(f"current accelerator is {torch.accelerator.current_accelerator()}")
+        print("using CPU :(")
 
     model = resnet18().to(device)
 
