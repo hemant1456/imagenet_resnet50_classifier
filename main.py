@@ -5,18 +5,19 @@ from torch.optim import SGD, AdamW
 from tqdm import tqdm
 from models.cifar10_resnet_18 import resnet18
 from torchinfo import summary
-from utils.dataloader import cifar_10_dataloader
+from utils.dataloader import cifar_10_dataloader,tiny_imagenet_dataloader
 from torchvision.transforms import v2
 import random
-
+n_classes = 200
 
 
 def main():
 
-    train_dataset, test_dataset, train_loader, test_loader = cifar_10_dataloader(64)
+    #train_dataset, test_dataset, train_loader, test_loader = cifar_10_dataloader(64)
+    train_dataset, test_dataset, train_loader, test_loader = tiny_imagenet_dataloader(64)
 
-    mixup = v2.MixUp(num_classes=10)
-    cutmix = v2.CutMix(num_classes=10)
+    mixup = v2.MixUp(num_classes=n_classes)
+    cutmix = v2.CutMix(num_classes=n_classes)
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
@@ -28,7 +29,7 @@ def main():
         device = torch.device("cpu")
         print("using CPU :(")
 
-    model = resnet18().to(device)
+    model = resnet18(n_classes=n_classes).to(device)
 
     summary(model, input_data=torch.randn(1,3, 32, 32).to(device))
     
