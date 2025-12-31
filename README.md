@@ -126,4 +126,4 @@ After adding cutmix augmentation as well along with above augmentation, the test
 
 did aggressive randomaffine and horizontal flip at probability 0.5, accuracy dropeed to 0.878
 
-applied label smoothing while keeping above 
+applied label smoothing while removing above aggeressive augmentation, accuracy reached 0.886
