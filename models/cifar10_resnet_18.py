@@ -14,7 +14,9 @@ class basic_block1(nn.Module):
         self.relu2 = nn.ReLU()
         self.drop = nn.Dropout2d(0.1)
 
-        self.downsample = nn.Conv2d(in_channels=in_channels, out_channels=in_channels*2,kernel_size=1, padding=0, stride = 2,bias=False)
+        self.downsample = nn.Sequential(
+            nn.Conv2d(in_channels=in_channels, out_channels=in_channels*2,kernel_size=1, padding=0, stride = 2,bias=False),
+            nn.BatchNorm2d(in_channels*2))
     def forward(self,x):
         identity = self.downsample(x)
         x = self.relu1(self.bn1(self.conv1(x)))
