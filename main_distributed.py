@@ -27,13 +27,19 @@ def cleanup():
 def main():
 
     #train_dataset, test_dataset, train_loader, test_loader = cifar_10_dataloader(64)
-    train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64)
+    
 
     mixup = v2.MixUp(num_classes=n_classes)
     cutmix = v2.CutMix(num_classes=n_classes)
 
     local_rank = setup_distributed()
+
+    train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64)
+    
+    dist.barrier()
     device = torch.device(f"cuda:{local_rank}")
+
+
 
     model = resnet18(n_classes=n_classes).to(device)
     model = DDP(model,device_ids=[local_rank])
@@ -59,7 +65,7 @@ def main():
     os.makedirs("./checkpoints",exist_ok=True)
     if os.path.exists('./checkpoints/final_model.pt'):
         checkpoint = torch.load('./checkpoints/final_model.pt')
-        model.load_state_dict(checkpoint['model_params'])
+        model.module.load_state_dict(checkpoint['model_params'])
         optimizer.load_state_dict(checkpoint['optimizer_params'])
         start_epoch = checkpoint['epoch']
     else:
@@ -115,7 +121,7 @@ def main():
                     
                 })
         checkpoint = {
-                'model_params':model.state_dict(),
+                'model_params':model.module.state_dict(),
                 'epoch': epoch+1,
                 'optimizer_params':optimizer.state_dict(),
             }
