@@ -35,12 +35,12 @@ def main():
     local_rank = setup_distributed()
 
     if local_rank==0:
-        train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64,n_workers =3)
+        train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64,n_workers =3,distributed=True)
     
     dist.barrier()
 
     if local_rank!=0:
-        train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64,n_workers =3)
+        train_dataset, test_dataset, train_loader, test_loader,data_sampler = tiny_imagenet_dataloader(64,n_workers =3,distributed=True)
     
     dist.barrier()
     device = torch.device(f"cuda:{local_rank}")
