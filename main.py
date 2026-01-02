@@ -5,7 +5,7 @@ from torch.optim import SGD, AdamW
 from tqdm import tqdm
 #from models.cifar10_resnet_18 import resnet18
 from models.tiny_imagenet_resnet_18 import resnet18
-from models.tiny_imagenet_resent_50 import resnet50
+from models.tiny_imagenet_resnet_50 import resnet50
 from torchinfo import summary
 from utils.dataloader import cifar_10_dataloader,tiny_imagenet_dataloader
 from torchvision.transforms import v2
