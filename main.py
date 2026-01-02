@@ -16,7 +16,7 @@ n_classes = 200
 def main():
 
     #train_dataset, test_dataset, train_loader, test_loader = cifar_10_dataloader(64)
-    train_dataset, test_dataset, train_loader, test_loader,sampler = tiny_imagenet_dataloader(64)
+    train_dataset, test_dataset, train_loader, test_loader,sampler = tiny_imagenet_dataloader(128)
 
     mixup = v2.MixUp(num_classes=n_classes)
     cutmix = v2.CutMix(num_classes=n_classes)
