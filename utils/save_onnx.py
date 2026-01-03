@@ -1,11 +1,13 @@
 import torch
-checkpoint = torch.load('./final_model.pt',map_location=torch.device('cpu'))
+checkpoint = torch.load('./runpod_trained_model.pt',map_location=torch.device('cpu'))
 
-from models.cifar10_resnet_18 import resnet18
+from models.tiny_imagenet_resnet_50 import resnet50
 
-model = resnet18(n_classes=200)
+model = resnet50(n_classes=200)
 
 model.load_state_dict(checkpoint['model_params'])
+
+model.eval()
 
 
 from onnxruntime.quantization import quantize_dynamic, QuantType
